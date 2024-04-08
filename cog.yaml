@@ -1,0 +1,16 @@
+build:
+  gpu: false
+  python_version: "3.10"
+  run:
+    - apt update -y && apt install -y software-properties-common python3-launchpadlib && apt update -y && add-apt-repository -y ppa:git-core/ppa && apt update -y
+    - apt install -y gcc g++ aria2 git git-lfs wget libgl1 libglib2.0-0 ffmpeg cmake libgtk2.0-0 libopenmpi-dev
+    - wget https://developer.download.nvidia.com/compute/cuda/12.1.0/local_installers/cuda_12.1.0_530.30.02_linux.run && sh cuda_12.1.0_530.30.02_linux.run --silent --toolkit
+    - pip install torch==2.1.0+cu121 torchvision==0.16.0+cu121 torchaudio==2.1.0+cu121 torchtext==0.16.0 torchdata==0.7.0 --extra-index-url https://download.pytorch.org/whl/cu121 -U
+    - pip install notebook pyngrok pickleshare ipywidgets imageio-ffmpeg pandas numpy==1.25.2 scikit-learn==1.2.2 scipy==1.11.4 matplotlib==3.7.1
+    - sed -i 's/return caster.operator typename make_caster<T>::template cast_op_type<T>();/return caster;/' /usr/local/lib/python3.10/site-packages/torch/include/pybind11/cast.h
+    - pip install webvtt-py==0.4.6 omegaconf==2.3.0 iopath==0.1.10 timm==0.6.13  webdataset==0.2.48 visual-genome==1.1.1 decord==0.6.0 pysrt==1.1.2 peft==0.2.0 wandb==0.14.2 openai==0.28.0 pycocoevalcap==1.2
+    - pip install pytubefix transformers==4.37.2 moviepy==1.0.3 nltk==3.8.1 soundfile==0.12.1 sentencepiece==0.1.97 bitsandbytes==0.42.0 accelerate==0.25.0 opencv-python==4.7.0.72 scikit-image==0.22.0
+    - git clone -b dev https://github.com/camenduru/MiniGPT4-video /content/MiniGPT4-video
+    - aria2c --console-log-level=error -c -x 16 -s 16 -k 1M https://huggingface.co/Vision-CAIR/MiniGPT4-Video/resolve/main/checkpoints/video_llama_checkpoint_last.pth -d /content/MiniGPT4-video/pretrained_models -o video_llama_checkpoint_last.pth
+    - aria2c --console-log-level=error -c -x 16 -s 16 -k 1M https://huggingface.co/Vision-CAIR/MiniGPT4-Video/resolve/main/checkpoints/video_mistral_checkpoint_last.pth -d /content/MiniGPT4-video/pretrained_models -o video_mistral_checkpoint_last.pth
+predict: "/src/predict.py:Predictor"
