@@ -170,7 +170,7 @@ class Predictor(BasePredictor):
         question: str = Input(default="What's this video talking about?"),
         add_subtitles: bool = Input(default=False),
     ) -> str:
-        args.video_path = video_path
+        args.video_path = str(video_path)
         args.question = question
         args.add_subtitles = add_subtitles
         pred=run(args.video_path, args.question, self.model, self.vis_processor, gen_subtitles=args.add_subtitles)
