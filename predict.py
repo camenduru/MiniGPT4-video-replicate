@@ -22,8 +22,10 @@ import torch.backends.cudnn as cudnn
 
 class Options:
     def __init__(self):
-        self.cfg_path = "/content/MiniGPT4-video/test_configs/llama2_test_config.yaml"
-        self.ckpt = '/content/MiniGPT4-video/pretrained_models/video_llama_checkpoint_last.pth'
+        # self.cfg_path = "/content/MiniGPT4-video/test_configs/llama2_test_config.yaml"
+        # self.ckpt = '/content/MiniGPT4-video/pretrained_models/video_llama_checkpoint_last.pth'
+        self.cfg_path = "/content/MiniGPT4-video/test_configs/mistral_test_config.yaml"
+        self.ckpt = '/content/MiniGPT4-video/pretrained_models/video_mistral_checkpoint_last.pth'
         self.add_subtitles = False
         self.question = None
         self.video_path = None
